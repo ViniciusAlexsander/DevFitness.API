@@ -19,7 +19,20 @@ namespace DevFitness.API.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>(e =>
+            {
+                e.HasKey(u => u.Id);
 
+                e.HasMany(u => u.Meals)
+                    .WithOne()
+                    .HasForeignKey(m => m.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            modelBuilder.Entity<Meal>(e =>
+            {
+                e.HasKey(m => m.Id);
+            });
         }
     }
 }
